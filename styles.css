@@ -13,7 +13,9 @@ is a child of header in HTML */
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-    background-color: bisque;
+    background-color: rgb(255, 80, 223);
+    font-family: Chalkduster;
+    font-size: 36px;
 }
 
 /* Removing the bullet points in the nav 
