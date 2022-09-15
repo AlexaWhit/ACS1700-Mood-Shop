@@ -1,0 +1,37 @@
+body {
+    font-family: Helvetica;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Creating flexbox container with header
+which will include the navbar since navbar
+is a child of header in HTML */
+
+.page-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    background-color: bisque;
+}
+
+/* Removing the bullet points in the nav 
+link list */
+
+.page-header ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+}
+
+/* Adding space between links and removing
+the underlines in navbar utilizing the <a> 
+element */
+
+.page-header a {
+    display: block;
+    padding: 0.5em;
+    text-decoration: none;
+}
