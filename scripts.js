@@ -34,8 +34,30 @@ for (let i = 0; i < data.length; i += 1) {
     button.dataset.price = data[i].price;
     button.innerHTML = "Add to Cart";
     newDiv.appendChild(button);
-
-
 }
 
-console.log(img)
+//Creating the Shopping Cart
+//using a COLLECTION (Array/Object)
+const cart = []
+
+
+//function to add to cart and keeping
+//track of name, price, and quantity using an object
+function addItemToCart(name, price) {
+    //key on left, value on right
+    const item = { name: name, price: price, qty: 1 }
+    cart.push(item)
+}
+//function to show which items are in the cart
+function showItemsInCart() {
+    /* Use backquotes in order to combine variables with a 
+    string of characters */
+    console.log(`You have ${cart.length} items in your cart.`)
+}
+
+addItemToCart('happy', 5.99)
+addItemToCart('sad', 5.99)
+addItemToCart('angry', 5.99)
+addItemToCart('calm', 5.99)
+
+showItemsInCart()
