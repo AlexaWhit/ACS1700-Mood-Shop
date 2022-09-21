@@ -18,8 +18,8 @@ for (let i = 0; i < data.length; i += 1) {
     //Add image to the div
     newDiv.appendChild(img);
     console.log(img);
+    // put new div inside items container
     itemsContainer.appendChild(newDiv);
-
     const desc = document.createElement ('P');
     desc.innerText = data[i].desc;
     newDiv.appendChild(desc);
