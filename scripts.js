@@ -44,6 +44,7 @@ const itemList = document.getElementById('item-list')
 const cartQty = document.getElementById('cart-qty')
 const cartTotal = document.getElementById('cart-total')
 
+
 const cart = []
 
 //telling JS to produce same output as value:value (value equals value)
@@ -104,6 +105,18 @@ function showItemsInCart() {
 
         itemStr += `<li>${name} $${price} x ${qty} = ${qty * price}</li>`
     }
+
+    //Select all buttons from our page
+    //Need to make button list into an arry which will make it easier to
+    //loop through each button and assign it in the addItem function
+    //use Array.from to covert the node lsits into an array
+    const all_items_button = Array.from(document.querySelectorAll('button'))
+    all_items_button.forEach(elt => elt.addEventListener('click', () => {
+        addItemToCart(elt.getAttribute('id'), elt.getAttribute('data-price'))
+        showItemsInCart()
+    }))
+    
+
     itemList.innerHTML = itemStr
    
     //console.log(`Total in cart: $${getTotal()}`)
