@@ -43,12 +43,46 @@ for (let i = 0; i < data.length; i += 1) {
 const itemList = document.getElementById('item-list')
 const cartQty = document.getElementById('cart-qty')
 const cartTotal = document.getElementById('cart-total')
-
+const addForm = document.getElementById('add-form')
+const itemName = document.getElementById('item-name')
+const itemPrice = document.getElementById('item-price')
 
 const cart = []
 
+// ------------------------------------------------------------------
+//To Handle change evens on update input for qty
+itemList.onchange = function(e) {
+    if (e.target && e.target.classList.contains('update')) {
+        const name = e.target.dataset.name
+        const qty = parseInt(e.target.value) //ensure it's a number by using parseInt
+        updateCart(name, qty) 
+        
+    }
+}
+
 //telling JS to produce same output as value:value (value equals value)
 //const obj = { a }
+
+// ------------------------------------------------------------------
+//function to handle clicks on list
+itemList.onclick = function(e) {
+    //console.log("Clicked List!!")
+    //console.log(e.target)
+
+    //e is event objct for the event that just occured
+    //target is the specific element that triggered the event
+    //class list is the list of classes that belong to that element
+    if (e.target && e.target.classList.contains('remove')) {
+        const name = e.target.dataset.name // data-name = "???"
+        removeItemFromCart(name)
+    } else if (e.target && e.target.classList.contains('add-one')) {
+        const name = e.target.dataset.name
+        addItemToCart(name)
+    } else if (e.target && e.target.classList.contains('remove-one')) {
+        const name = e.target.dataset.name
+        removeItemFromCart(name, 1) //added 1 to (name, 1) so that it removes only 1 item
+    }
+}
 
 
 // ------------------------------------------------------------------
@@ -64,12 +98,14 @@ function addItemToCart(name, price) {
             //add one to the value of qty
             cart[i].qty += 1
             // Stop the function in order to avoid duplicates in cart!
+            showItemsInCart()
             return
         }
     }
     //key on left, value on right
     const item = { name, price, qty: 1 }
     cart.push(item)
+    showItemsInCart()
 }
 
 
@@ -103,10 +139,22 @@ function showItemsInCart() {
         //into three variables
         const { name, price, qty } = cart[i]
 
-        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price}</li>`
+        //Add Remove, +, and - Buttons
+        itemStr += `<li>
+            ${name} $${price} x ${qty} = ${qty * price} 
+            <button class="remove" data-name="${name}">Remove</button>
+            <button class="add-one" data-name="${name}"> + </button>
+            <button class="remove-one" data-name="${name}"> - </button>
+            <input class="update" type="number" data-name="${name}">
+        </li>`
     }
+    itemList.innerHTML = itemStr
 
-    //Select all buttons from our page
+    //console.log(`Total in cart: $${getTotal()}`)
+    cartTotal.innerHTML = `Total in cart: $${getTotal()}`
+}
+
+//Select all buttons from our page
     //Need to make button list into an arry which will make it easier to
     //loop through each button and assign it in the addItem function
     //use Array.from to covert the node lsits into an array
@@ -115,13 +163,6 @@ function showItemsInCart() {
         addItemToCart(elt.getAttribute('id'), elt.getAttribute('data-price'))
         showItemsInCart()
     }))
-    
-
-    itemList.innerHTML = itemStr
-   
-    //console.log(`Total in cart: $${getTotal()}`)
-    cartTotal.innerHTML = `Total in cart: $${getTotal()}`
-}
 
 // ------------------------------------------------------------------
 //to update total items in cart when there are duplicates..
@@ -163,7 +204,7 @@ function removeItemFromCart(name, qty = 0) {
             if (cart[i].qty < 1 || qty === 0) {
                 cart.splice(i, 1)
             }    
-
+            showItemsInCart()
         //use Splice -- we want to start at indez i and remove 1 entire item
          //cart.splice(i, 1)
             return
@@ -171,6 +212,20 @@ function removeItemFromCart(name, qty = 0) {
     }
 }
 
+// ----------------------------------------------------------------
+function updateCart(name, qty) {
+    for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].name === name) {
+            if (qty < 1) {
+                removeItemFromCart(name)
+                return
+            }
+            cart[i].qty = qty
+            showItemsInCart()
+            return
+        }
+    }
+}
 
 // -------------------------test area-------------------------------
 addItemToCart('happy', 5.99)
@@ -178,13 +233,13 @@ addItemToCart('sad', 5.99)
 addItemToCart('angry', 5.99)
 addItemToCart('calm', 5.99)
 addItemToCart('happy', 5.99)
-addItemToCart('sad', 5.99)
+//addItemToCart('sad', 5.99)
 
 showItemsInCart()
 
-removeItemFromCart('calm')
-removeItemFromCart('happy', 2)
+//removeItemFromCart('calm')
+//removeItemFromCart('happy', 2)
 
-showItemsInCart()
+//showItemsInCart()
 
-console.log(itemList)
+//console.log(itemList)
