@@ -2,6 +2,7 @@ import data from "./data.js";
 
 const itemsContainer = document.querySelector('#items')
 
+
 /* Loop over each element inside each object and display
 their images. This for-loop goes inside THIS file.
 The length of the data determines how many times this
@@ -38,6 +39,11 @@ for (let i = 0; i < data.length; i += 1) {
 
 //Creating the Shopping Cart
 //using a COLLECTION (Array/Object)
+//Adding a variable called itemList that will hold the reference to the ul element
+const itemList = document.getElementById('item-list')
+const cartQty = document.getElementById('cart-qty')
+const cartTotal = document.getElementById('cart-total')
+
 const cart = []
 
 //telling JS to produce same output as value:value (value equals value)
@@ -74,19 +80,35 @@ function showItemsInCart() {
    
     /* Use backquotes in order to combine variables with a 
     string of characters */
-    console.log(`You have ${qty} items in your cart.`)
+    //console.log(`You have ${qty} items in your cart.`)
+    cartQty.innerHTML = `You have ${qty} items in your cart.`
+
+     //create li tag listing all of the items 
+    let itemStr = ''
+
     //Make a loop which will run the length of the items in the cart
     //i+=1 means that at the end of every loop we will add 1 to i which
     //will move on to the next index(i)
     for (let i = 0; i < cart.length; i += 1) {
         //print each item in the cart
-        console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty} `)
-    }
-    //--------->HELP<-------- keep getting error message r getTotal 
-    //is not defined
-   console.log(`Total in cart: $${getTotal()}`)
-}
 
+        //console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+        //const name = cart[i].name
+        //const price = cart[i].price
+        //const qty = cart[i].qty
+
+        //ex. {name:'Apple', price: 0.99, qty: 3}
+        //If we use the sntax below, we can break apart an object like above
+        //into three variables
+        const { name, price, qty } = cart[i]
+
+        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price}</li>`
+    }
+    itemList.innerHTML = itemStr
+   
+    //console.log(`Total in cart: $${getTotal()}`)
+    cartTotal.innerHTML = `Total in cart: $${getTotal()}`
+}
 
 // ------------------------------------------------------------------
 //to update total items in cart when there are duplicates..
@@ -151,3 +173,5 @@ removeItemFromCart('calm')
 removeItemFromCart('happy', 2)
 
 showItemsInCart()
+
+console.log(itemList)
